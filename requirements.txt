@@ -4,3 +4,4 @@ numpy
 scikit-learn
 pyttsx3
 gunicorn
+flask

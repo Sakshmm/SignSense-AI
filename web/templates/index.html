@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SignSense AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #0f1117;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 30px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 9px 18px;
+            border-radius: 30px;
+            background: #163d29;
+            color: #4ade80;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin: 5px 0 8px;
+        }
+
+        .subtitle {
+            color: #aeb4c0;
+            font-size: 17px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .card {
+            background: #181b24;
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .camera-wrapper {
+            position: relative;
+            width: 100%;
+            background: #080a0f;
+            border-radius: 14px;
+            overflow: hidden;
+            aspect-ratio: 16 / 10;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            transform: scaleX(-1);
+        }
+
+        .camera-overlay {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.65);
+            font-size: 13px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #startCamera {
+            background: #2563eb;
+            color: white;
+        }
+
+        #stopCamera {
+            background: #dc2626;
+            color: white;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result {
+            text-align: center;
+            padding: 20px;
+            background: #222631;
+            border-radius: 14px;
+            margin-bottom: 15px;
+        }
+
+        .gesture-label {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .message {
+            color: #aeb4c0;
+            font-size: 18px;
+            min-height: 28px;
+        }
+
+        .confidence-container {
+            margin-top: 20px;
+        }
+
+        .confidence-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+        }
+
+        .progress {
+            width: 100%;
+            height: 12px;
+            background: #11141b;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #22c55e;
+            transition: width 0.2s ease;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .stat {
+            background: #222631;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .stat-title {
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .top-predictions {
+            margin-top: 20px;
+        }
+
+        .prediction-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 12px;
+            background: #222631;
+            border-radius: 8px;
+            margin-top: 7px;
+        }
+
+        .server-status {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 10px;
+            background: #163d29;
+            color: #4ade80;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .error {
+            background: #451a1a;
+            color: #fca5a5;
+        }
+
+        @media (max-width: 800px) {
+            body {
+                padding: 15px;
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="header">
+
+            <div class="status" id="status">
+                ● AI Backend Online
+            </div>
+
+            <h1>SignSense AI</h1>
+
+            <div class="subtitle">
+                Real-Time Sign Language Recognition System
+            </div>
+
+        </div>
+
+
+        <!-- MAIN -->
+        <div class="main-grid">
+
+            <!-- CAMERA -->
+            <div class="card">
+
+                <div class="card-title">
+                    📷 Live Camera
+                </div>
+
+                <div class="camera-wrapper">
+
+                    <video
+                        id="camera"
+                        autoplay
+                        playsinline>
+                    </video>
+
+                    <div
+                        class="camera-overlay"
+                        id="cameraStatus">
+                        Camera Off
+                    </div>
+
+                </div>
+
+                <div class="controls">
+
+                    <button
+                        id="startCamera">
+                        Start Camera
+                    </button>
+
+                    <button
+                        id="stopCamera"
+                        disabled>
+                        Stop Camera
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- AI RESULT -->
+            <div class="card">
+
+                <div class="card-title">
+                    🤖 AI Detection
+                </div>
+
+                <div class="result">
+
+                    <div>
+                        Detected Gesture
+                    </div>
+
+                    <div
+                        class="gesture-label"
+                        id="gesture">
+                        -
+                    </div>
+
+                    <div
+                        class="message"
+                        id="message">
+                        Waiting for camera...
+                    </div>
+
+                </div>
+
+
+                <!-- CONFIDENCE -->
+
+                <div class="confidence-container">
+
+                    <div class="confidence-header">
+
+                        <span>
+                            Confidence
+                        </span>
+
+                        <span id="confidence">
+                            0%
+                        </span>
+
+                    </div>
+
+                    <div class="progress">
+
+                        <div
+                            class="progress-bar"
+                            id="confidenceBar">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATS -->
+
+                <div class="stats">
+
+                    <div class="stat">
+
+                        <div class="stat-title">
+                            Hands Detected
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="hands">
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div class="stat-title">
+                            Threshold
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="threshold">
+                            60%
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TOP 3 -->
+
+                <div class="top-predictions">
+
+                    <div class="card-title">
+                        Top Predictions
+                    </div>
+
+                    <div
+                        id="topPredictions">
+
+                        <div class="prediction-row">
+
+                            <span>-</span>
+
+                            <span>0%</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="server-status"
+                    id="serverStatus">
+                    Backend Connected
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- HIDDEN CANVAS -->
+
+    <canvas
+        id="canvas"
+        style="display:none;">
+    </canvas>
+
+
+    <script>
+
+        // =====================================================
+        // ELEMENTS
+        // =====================================================
+
+        const video =
+            document.getElementById("camera");
+
+        const canvas =
+            document.getElementById("canvas");
+
+        const startButton =
+            document.getElementById("startCamera");
+
+        const stopButton =
+            document.getElementById("stopCamera");
+
+        const cameraStatus =
+            document.getElementById("cameraStatus");
+
+        const gestureElement =
+            document.getElementById("gesture");
+
+        const messageElement =
+            document.getElementById("message");
+
+        const confidenceElement =
+            document.getElementById("confidence");
+
+        const confidenceBar =
+            document.getElementById("confidenceBar");
+
+        const handsElement =
+            document.getElementById("hands");
+
+        const thresholdElement =
+            document.getElementById("threshold");
+
+        const topPredictionsElement =
+            document.getElementById("topPredictions");
+
+        const serverStatus =
+            document.getElementById("serverStatus");
+
+
+        // =====================================================
+        // VARIABLES
+        // =====================================================
+
+        let stream = null;
+
+        let predictionInterval = null;
+
+        let isPredicting = false;
+
+
+        // =====================================================
+        // START CAMERA
+        // =====================================================
+
+        async function startCamera() {
+
+            try {
+
+                stream =
+                    await navigator.mediaDevices.getUserMedia({
+
+                        video: {
+                            width: {
+                                ideal: 640
+                            },
+                            height: {
+                                ideal: 480
+                            },
+                            facingMode: "user"
+                        },
+
+                        audio: false
+
+                    });
+
+
+                video.srcObject = stream;
+
+                cameraStatus.textContent =
+                    "● Camera Active";
+
+                startButton.disabled = true;
+
+                stopButton.disabled = false;
+
+                messageElement.textContent =
+                    "Show a hand gesture...";
+
+                startPrediction();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Camera error:",
+                    error
+                );
+
+                cameraStatus.textContent =
+                    "Camera Permission Denied";
+
+                messageElement.textContent =
+                    "Please allow camera access.";
+
+            }
+
+        }
+
+
+        // =====================================================
+        // STOP CAMERA
+        // =====================================================
+
+        function stopCamera() {
+
+            if (stream) {
+
+                stream
+                    .getTracks()
+                    .forEach(
+                        track => track.stop()
+                    );
+
+                stream = null;
+
+            }
+
+
+            video.srcObject = null;
+
+            cameraStatus.textContent =
+                "Camera Off";
+
+            startButton.disabled = false;
+
+            stopButton.disabled = true;
+
+            stopPrediction();
+
+            gestureElement.textContent =
+                "-";
+
+            messageElement.textContent =
+                "Camera stopped.";
+
+            confidenceElement.textContent =
+                "0%";
+
+            confidenceBar.style.width =
+                "0%";
+
+            handsElement.textContent =
+                "0";
+
+        }
+
+
+        // =====================================================
+        // START PREDICTION LOOP
+        // =====================================================
+
+        function startPrediction() {
+
+            stopPrediction();
+
+            predictionInterval =
+                setInterval(
+                    sendFrame,
+                    500
+                );
+
+        }
+
+
+        // =====================================================
+        // STOP PREDICTION
+        // =====================================================
+
+        function stopPrediction() {
+
+            if (predictionInterval) {
+
+                clearInterval(
+                    predictionInterval
+                );
+
+                predictionInterval = null;
+
+            }
+
+        }
+
+
+        // =====================================================
+        // SEND FRAME TO BACKEND
+        // =====================================================
+
+        async function sendFrame() {
+
+            if (!stream) {
+                return;
+            }
+
+            if (isPredicting) {
+                return;
+            }
+
+            if (
+                video.readyState <
+                HTMLMediaElement.HAVE_CURRENT_DATA
+            ) {
+                return;
+            }
+
+
+            isPredicting = true;
+
+
+            try {
+
+                // ---------------------------------------------
+                // SET CANVAS SIZE
+                // ---------------------------------------------
+
+                canvas.width =
+                    video.videoWidth;
+
+                canvas.height =
+                    video.videoHeight;
+
+
+                // ---------------------------------------------
+                // DRAW CURRENT FRAME
+                // ---------------------------------------------
+
+                const context =
+                    canvas.getContext("2d");
+
+                context.drawImage(
+                    video,
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+
+
+                // ---------------------------------------------
+                // CONVERT TO JPEG
+                // ---------------------------------------------
+
+                const blob =
+                    await new Promise(
+                        resolve =>
+                            canvas.toBlob(
+                                resolve,
+                                "image/jpeg",
+                                0.75
+                            )
+                    );
+
+
+                if (!blob) {
+
+                    isPredicting = false;
+
+                    return;
+
+                }
+
+
+                // ---------------------------------------------
+                // FORM DATA
+                // ---------------------------------------------
+
+                const formData =
+                    new FormData();
+
+                formData.append(
+                    "image",
+                    blob,
+                    "frame.jpg"
+                );
+
+
+                // ---------------------------------------------
+                // SEND TO FLASK
+                // ---------------------------------------------
+
+                const response =
+                    await fetch(
+                        "/predict",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                // ---------------------------------------------
+                // HANDLE RESPONSE
+                // ---------------------------------------------
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.error ||
+                        "Prediction failed"
+                    );
+
+                }
+
+
+                updateUI(data);
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Prediction error:",
+                    error
+                );
+
+                serverStatus.textContent =
+                    "Backend Error";
+
+                serverStatus.classList.add(
+                    "error"
+                );
+
+            }
+
+            finally {
+
+                isPredicting = false;
+
+            }
+
+        }
+
+
+        // =====================================================
+        // UPDATE UI
+        // =====================================================
+
+        function updateUI(data) {
+
+            if (!data.success) {
+
+                return;
+
+            }
+
+
+            serverStatus.textContent =
+                "Backend Connected";
+
+            serverStatus.classList.remove(
+                "error"
+            );
+
+
+            // ---------------------------------------------
+            // GESTURE
+            // ---------------------------------------------
+
+            gestureElement.textContent =
+                data.gesture || "-";
+
+
+            // ---------------------------------------------
+            // MESSAGE
+            // ---------------------------------------------
+
+            messageElement.textContent =
+                data.message ||
+                "Waiting...";
+
+
+            // ---------------------------------------------
+            // CONFIDENCE
+            // ---------------------------------------------
+
+            const confidence =
+                Number(
+                    data.confidence_percent ||
+                    0
+                );
+
+
+            confidenceElement.textContent =
+                confidence.toFixed(1) +
+                "%";
+
+
+            confidenceBar.style.width =
+                Math.min(
+                    confidence,
+                    100
+                ) + "%";
+
+
+            // ---------------------------------------------
+            // HANDS
+            // ---------------------------------------------
+
+            handsElement.textContent =
+                data.hand_count || 0;
+
+
+            // ---------------------------------------------
+            // THRESHOLD
+            // ---------------------------------------------
+
+            if (
+                typeof data.threshold ===
+                "number"
+            ) {
+
+                thresholdElement.textContent =
+                    (
+                        data.threshold * 100
+                    ).toFixed(0) +
+                    "%";
+
+            }
+
+
+            // ---------------------------------------------
+            // TOP PREDICTIONS
+            // ---------------------------------------------
+
+            topPredictionsElement.innerHTML =
+                "";
+
+
+            if (
+                data.top_predictions &&
+                data.top_predictions.length
+            ) {
+
+                data.top_predictions.forEach(
+                    prediction => {
+
+                        const row =
+                            document.createElement(
+                                "div"
+                            );
+
+                        row.className =
+                            "prediction-row";
+
+
+                        const label =
+                            document.createElement(
+                                "span"
+                            );
+
+                        label.textContent =
+                            prediction.gesture;
+
+
+                        const score =
+                            document.createElement(
+                                "span"
+                            );
+
+                        score.textContent =
+                            (
+                                prediction.confidence *
+                                100
+                            ).toFixed(1) +
+                            "%";
+
+
+                        row.appendChild(
+                            label
+                        );
+
+                        row.appendChild(
+                            score
+                        );
+
+
+                        topPredictionsElement
+                            .appendChild(
+                                row
+                            );
+
+                    }
+                );
+
+            }
+
+            else {
+
+                topPredictionsElement.innerHTML =
+                    `
+                    <div class="prediction-row">
+                        <span>-</span>
+                        <span>0%</span>
+                    </div>
+                    `;
+
+            }
+
+        }
+
+
+        // =====================================================
+        // BUTTON EVENTS
+        // =====================================================
+
+        startButton.addEventListener(
+            "click",
+            startCamera
+        );
+
+
+        stopButton.addEventListener(
+            "click",
+            stopCamera
+        );
+
+
+        // =====================================================
+        // CHECK BACKEND
+        // =====================================================
+
+        async function checkBackend() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/health"
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    data.status ===
+                    "ok"
+                ) {
+
+                    serverStatus.textContent =
+                        "Backend Connected";
+
+                    thresholdElement.textContent =
+                        (
+                            data.confidence_threshold *
+                            100
+                        ).toFixed(0) +
+                        "%";
+
+                }
+
+            }
+
+            catch (error) {
+
+                serverStatus.textContent =
+                    "Backend Offline";
+
+                serverStatus.classList.add(
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        // =====================================================
+        // INITIAL CHECK
+        // =====================================================
+
+        checkBackend();
+
+    </script>
+
+</body>
+
+</html>

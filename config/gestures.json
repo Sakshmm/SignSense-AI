@@ -1,0 +1,23 @@
+{
+    "APPROVED": "Approved",
+    "DISAPPROVED": "Disapproved",
+    "FOOD": "I need food",
+    "HELLO": "Hello",
+    "HELP": "I need help",
+    "OK": "I am okay",
+    "PAIN": "I am in pain",
+    "SOS": "Emergency! I need immediate help.",
+    "STOP": "Please stop",
+    "WATER": "I need water",
+
+    "MEDICINE": "I need medicine",
+    "WASHROOM": "I need to use the washroom",
+    "SLEEP": "I need to sleep/rest",
+    "DOCTOR": "I need a doctor",
+    "FAMILY": "I need my family",
+    "UNCOMFORTABLE": "I am uncomfortable",
+    "COLD": "I am feeling cold",
+    "HOT": "I am feeling hot",
+    "SITTING": "I want to sit down",
+    "REPEAT": "Please repeat"
+}

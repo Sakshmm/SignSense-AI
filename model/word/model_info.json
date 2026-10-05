@@ -1,0 +1,31 @@
+{
+    "model_type": "RandomForestClassifier",
+    "features_per_hand": 63,
+    "total_features": 126,
+    "gestures": [
+        "APPROVED",
+        "COLD",
+        "DISAPPROVED",
+        "DOCTOR",
+        "FAMILY",
+        "FOOD",
+        "HELLO",
+        "HELP",
+        "HOT",
+        "MEDICINE",
+        "OK",
+        "PAIN",
+        "REPEAT",
+        "SITTING",
+        "SLEEP",
+        "SOS",
+        "STOP",
+        "UNCOMFORTABLE",
+        "WASHROOM",
+        "WATER"
+    ],
+    "samples": 6000,
+    "accuracy": 1.0,
+    "supports_one_hand": true,
+    "supports_two_hands": true
+}

@@ -1,0 +1,61 @@
+{
+    "HELLO": {
+        "message": "Hello",
+        "hands": 1,
+        "description": "Open palm with all fingers stretched."
+    },
+
+    "STOP": {
+        "message": "Please stop",
+        "hands": 1,
+        "description": "Open palm with fingers together and straight."
+    },
+
+    "OK": {
+        "message": "I am okay",
+        "hands": 1,
+        "description": "Thumb and index finger form an OK circle."
+    },
+
+    "FOOD": {
+        "message": "I need food",
+        "hands": 1,
+        "description": "Use the same hand gesture used while collecting the FOOD dataset."
+    },
+
+    "WATER": {
+        "message": "I need water",
+        "hands": 1,
+        "description": "Use the same hand gesture used while collecting the WATER dataset."
+    },
+
+    "HELP": {
+        "message": "I need help",
+        "hands": 1,
+        "description": "Use the same hand gesture used while collecting the HELP dataset."
+    },
+
+    "PAIN": {
+        "message": "I am in pain",
+        "hands": 1,
+        "description": "Index finger pointing upward, as used during dataset collection."
+    },
+
+    "SOS": {
+        "message": "Emergency! I need immediate help.",
+        "hands": 1,
+        "description": "Use the same emergency gesture used while collecting the SOS dataset."
+    },
+
+    "APPROVED": {
+        "message": "Approved",
+        "hands": 1,
+        "description": "Thumbs-up gesture."
+    },
+
+    "DISAPPROVED": {
+        "message": "Disapproved",
+        "hands": 1,
+        "description": "Thumbs-down gesture."
+    }
+}

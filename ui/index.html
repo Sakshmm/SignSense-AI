@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SignSense AI</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <!-- ==================================================
+         GESTURE GUIDE STYLES
+    =================================================== -->
+
+    <style>
+
+        .page-section {
+            width: 100%;
+        }
+
+
+        .guide-intro {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            margin-bottom: 24px;
+            padding: 28px;
+            border-radius: 18px;
+        }
+
+        .guide-intro-icon {
+            width: 64px;
+            height: 64px;
+            min-width: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            font-size: 34px;
+            background: rgba(30, 136, 229, 0.10);
+        }
+
+        .guide-intro h3 {
+            margin: 0 0 8px 0;
+            font-size: 21px;
+        }
+
+        .guide-intro p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+
+        .gesture-guide-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+
+        .gesture-guide-card {
+            min-height: 205px;
+            padding: 22px;
+            border-radius: 18px;
+            border: 1px solid;
+            display: flex;
+            flex-direction: column;
+            transition:
+                transform 0.18s ease,
+                box-shadow 0.18s ease,
+                border-color 0.18s ease;
+            box-sizing: border-box;
+        }
+
+        .gesture-guide-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.10);
+        }
+
+
+        body:not(.light) .gesture-guide-card {
+            background: #151a22;
+            border-color: #29313d;
+            color: #f5f7fa;
+        }
+
+        body:not(.light) .gesture-guide-card:hover {
+            border-color: #315f8f;
+        }
+
+        body:not(.light) .guide-intro {
+            background: #151a22;
+            border: 1px solid #29313d;
+            color: #f5f7fa;
+        }
+
+        body:not(.light) .guide-intro p {
+            color: #aab4c0;
+        }
+
+        body:not(.light) .guide-note {
+            background: #151a22;
+            border-color: #29313d;
+            color: #f5f7fa;
+        }
+
+
+        body.light .gesture-guide-card {
+            background: #ffffff;
+            border-color: #dfe5ec;
+            color: #18212d;
+        }
+
+        body.light .gesture-guide-card:hover {
+            border-color: #b9cde3;
+            box-shadow: 0 10px 28px rgba(25, 60, 100, 0.08);
+        }
+
+        body.light .guide-intro {
+            background: #ffffff;
+            border: 1px solid #dfe5ec;
+            color: #18212d;
+        }
+
+        body.light .guide-intro p {
+            color: #536170;
+        }
+
+        body.light .guide-note {
+            background: #ffffff;
+            border-color: #dfe5ec;
+            color: #18212d;
+        }
+
+
+        .guide-icon {
+            width: 54px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            font-size: 29px;
+            margin-bottom: 18px;
+            background: rgba(30, 136, 229, 0.09);
+        }
+
+
+        .guide-content {
+            flex: 1;
+        }
+
+        .guide-content h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            line-height: 1.3;
+        }
+
+        .guide-content p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        body:not(.light) .guide-content p {
+            color: #aab4c0;
+        }
+
+        body.light .guide-content p {
+            color: #536170;
+        }
+
+
+        .guide-tag {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+            margin-top: 16px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        body:not(.light) .guide-tag {
+            background: #222a35;
+            color: #8fc5ff;
+        }
+
+        body.light .guide-tag {
+            background: #edf4fb;
+            color: #2876b8;
+        }
+
+
+        .guide-note {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 20px 24px;
+            border-radius: 16px;
+            border: 1px solid;
+        }
+
+        .guide-note strong {
+            white-space: nowrap;
+            font-size: 15px;
+        }
+
+        .guide-note p {
+            margin: 0;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        body:not(.light) .guide-note p {
+            color: #aab4c0;
+        }
+
+        body.light .guide-note p {
+            color: #536170;
+        }
+
+
+        @media (max-width: 1200px) {
+            .gesture-guide-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 900px) {
+            .gesture-guide-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .guide-intro {
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .gesture-guide-grid {
+                grid-template-columns: 1fr;
+            }
+            .guide-intro {
+                flex-direction: column;
+            }
+            .guide-note {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="app">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    ✋
+                </div>
+
+                <div>
+                    <h1>SignSense AI</h1>
+                    <p>Patient Communication</p>
+                </div>
+
+            </div>
+
+
+            <nav class="nav" id="mainNavigation">
+
+                <button class="nav-item active" data-page="dashboard" type="button">
+                    <span>⌂</span>
+                    Dashboard
+                </button>
+
+                <button class="nav-item" data-page="gesture-guide" type="button">
+                    <span>☝</span>
+                    Gesture Guide
+                </button>
+
+                <button class="nav-item" data-page="communication" type="button">
+                    <span>▣</span>
+                    Communication
+                </button>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    <div>
+                        <strong>System Ready</strong>
+                        <small>AI model connected</small>
+                    </div>
+                </div>
+
+                <button class="theme-button" id="themeToggle" type="button">
+                    <span id="themeIcon">☾</span>
+                    <span>Dark Mode</span>
+                </button>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="main">
+
+
+            <!-- ==================================================
+                 DASHBOARD PAGE
+            =================================================== -->
+
+            <section class="dashboard-page" id="dashboardPage">
+
+
+                <!-- HEADER -->
+
+                <header class="topbar">
+
+                    <div>
+                        <h2>Patient Dashboard</h2>
+                        <p>Real-time sign language communication</p>
+                    </div>
+
+                    <div class="header-right">
+
+                        <div class="camera-status">
+                            <span class="status-dot"></span>
+                            Camera Active
+                        </div>
+
+                        <button class="icon-button" type="button">⚙</button>
+
+                    </div>
+
+                </header>
+
+
+
+                <!-- ✅ FIXED: dashboard-grid -->
+
+                <section class="dashboard-grid">
+
+
+                    <!-- CAMERA CARD -->
+
+                    <div class="camera-card card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <h3>Live Camera</h3>
+                                <p>Show your hand gesture clearly</p>
+                            </div>
+
+                            <span class="live-badge">
+                                <span class="status-dot"></span>
+                                LIVE
+                            </span>
+
+                        </div>
+
+
+                        <div class="camera-container">
+
+                            <div class="camera-view">
+
+                                <img id="cameraFeed" class="camera-feed" alt="Live Camera" />
+
+                                <canvas id="landmarkCanvas" class="landmark-canvas"></canvas>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="camera-footer">
+
+                            <div class="hand-status">
+                                <span>✋</span>
+                                <div>
+                                    <strong id="handsDetected">0 Hands</strong>
+                                    <small>Detected</small>
+                                </div>
+                            </div>
+
+                            <div class="mode-status">
+                                <span>MODE</span>
+                                <strong>WORD</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- DETECTION CARD -->
+
+                    <div class="detection-card card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <h3>Detected Gesture</h3>
+                                <p>AI prediction</p>
+                            </div>
+
+                            <div class="confidence-mini">
+                                <span>Confidence</span>
+                                <strong id="confidence">0%</strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="gesture-result">
+
+                            <div class="gesture-icon" id="gestureIcon">✋</div>
+
+                            <h2 id="gestureName">Waiting...</h2>
+
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" id="confidenceFill" style="width: 0%"></div>
+                            </div>
+
+                            <p class="confidence-text">
+                                <span id="confidenceText">0%</span>
+                                confidence
+                            </p>
+
+                        </div>
+
+
+                        <div class="message-box">
+
+                            <span class="message-label">PATIENT MESSAGE</span>
+
+                            <p id="patientMessage">Waiting for a gesture...</p>
+
+                        </div>
+
+
+                        <div class="voice-status" id="voiceStatus">
+
+                            <div class="voice-icon">🔊</div>
+
+                            <div>
+                                <strong id="voiceText">Voice Ready</strong>
+                                <small>Text-to-speech</small>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- BOTTOM ROW -->
+
+                <section class="bottom-grid" id="dashboardBottomGrid">
+
+
+                    <div class="history-card card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <h3>Recent Communication</h3>
+                                <p>Latest patient messages</p>
+                            </div>
+
+                            <button class="clear-button" id="clearHistory" type="button">
+                                Clear
+                            </button>
+
+                        </div>
+
+                        <div class="history-list" id="historyList">
+                            <div class="empty-history">No communication yet</div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="info-card card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <h3>System Information</h3>
+                                <p>Current session</p>
+                            </div>
+
+                        </div>
+
+                        <div class="info-list">
+
+                            <div class="info-row">
+                                <span>AI Model</span>
+                                <strong>30 Gestures</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Detection</span>
+                                <strong id="systemHandsDetected">0 / 2 Hands</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Voice</span>
+                                <strong class="online">Enabled</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Mode</span>
+                                <strong>WORD</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- EMERGENCY -->
+
+                <div class="emergency-banner" id="emergencyBanner">
+
+                    <div class="emergency-icon">!</div>
+
+                    <div>
+                        <strong>EMERGENCY ALERT</strong>
+                        <p>Patient requires immediate assistance.</p>
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- ==================================================
+                 GESTURE GUIDE PAGE
+            =================================================== -->
+
+            <section class="page-section" id="gestureGuidePage" style="display: none;">
+
+                <header class="topbar">
+
+                    <div>
+                        <h2>Gesture Guide</h2>
+                        <p>Learn the gestures supported by SignSense AI</p>
+                    </div>
+
+                    <div class="header-right">
+                        <div class="camera-status">
+                            <span class="status-dot"></span>
+                            AI Gesture Guide
+                        </div>
+                    </div>
+
+                </header>
+
+
+                <div class="guide-intro">
+
+                    <div class="guide-intro-icon">☝️</div>
+
+                    <div>
+                        <h3>How to communicate</h3>
+                        <p>
+                            Show a hand gesture clearly in front of
+                            the camera. SignSense AI detects the
+                            gesture and converts it into a meaningful
+                            patient message.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="gesture-guide-grid">
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">👋</div>
+                        <div class="guide-content">
+                            <h3>Hello</h3>
+                            <p>Use this gesture to communicate a greeting.</p>
+                            <span class="guide-tag">Greeting</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">🙏</div>
+                        <div class="guide-content">
+                            <h3>Thank You</h3>
+                            <p>Used to express gratitude or appreciation.</p>
+                            <span class="guide-tag">Courtesy</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">👍</div>
+                        <div class="guide-content">
+                            <h3>Yes</h3>
+                            <p>Can communicate agreement or a positive response.</p>
+                            <span class="guide-tag">Positive</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">👎</div>
+                        <div class="guide-content">
+                            <h3>No</h3>
+                            <p>Can communicate disagreement or rejection.</p>
+                            <span class="guide-tag">Negative</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">🤲</div>
+                        <div class="guide-content">
+                            <h3>Please</h3>
+                            <p>Used to politely request something or ask for assistance.</p>
+                            <span class="guide-tag">Request</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">😔</div>
+                        <div class="guide-content">
+                            <h3>Sorry</h3>
+                            <p>Used to communicate an apology or regret.</p>
+                            <span class="guide-tag">Emotion</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">❤️</div>
+                        <div class="guide-content">
+                            <h3>I Love You</h3>
+                            <p>A gesture used to communicate affection and care.</p>
+                            <span class="guide-tag">Emotion</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">👌</div>
+                        <div class="guide-content">
+                            <h3>OK</h3>
+                            <p>Used to communicate acknowledgement or that everything is fine.</p>
+                            <span class="guide-tag">Acknowledge</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">✋</div>
+                        <div class="guide-content">
+                            <h3>Stop</h3>
+                            <p>Used to indicate that an action should stop.</p>
+                            <span class="guide-tag">Command</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">✌️</div>
+                        <div class="guide-content">
+                            <h3>Peace</h3>
+                            <p>A simple two-finger hand gesture used for communication.</p>
+                            <span class="guide-tag">Gesture</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">👍</div>
+                        <div class="guide-content">
+                            <h3>Thumbs Up</h3>
+                            <p>Can indicate approval, confirmation, or a positive response.</p>
+                            <span class="guide-tag">Confirm</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">👎</div>
+                        <div class="guide-content">
+                            <h3>Thumbs Down</h3>
+                            <p>Can indicate disagreement or a negative response.</p>
+                            <span class="guide-tag">Negative</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">✊</div>
+                        <div class="guide-content">
+                            <h3>Fist</h3>
+                            <p>A closed-hand gesture that can represent a specific command.</p>
+                            <span class="guide-tag">Command</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">🖐️</div>
+                        <div class="guide-content">
+                            <h3>Open Palm</h3>
+                            <p>An open-hand gesture used for visual communication.</p>
+                            <span class="guide-tag">Gesture</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">✌️</div>
+                        <div class="guide-content">
+                            <h3>Victory</h3>
+                            <p>Two raised fingers used as a recognizable hand gesture.</p>
+                            <span class="guide-tag">Gesture</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">🤙</div>
+                        <div class="guide-content">
+                            <h3>Call Me</h3>
+                            <p>Indicates a request to call or communicate.</p>
+                            <span class="guide-tag">Communication</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">🤘</div>
+                        <div class="guide-content">
+                            <h3>Rock</h3>
+                            <p>A recognizable hand gesture used for expressive communication.</p>
+                            <span class="guide-tag">Gesture</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">☝️</div>
+                        <div class="guide-content">
+                            <h3>Point Up</h3>
+                            <p>Single raised finger gesture for directional communication.</p>
+                            <span class="guide-tag">Direction</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">👈</div>
+                        <div class="guide-content">
+                            <h3>Point Left</h3>
+                            <p>Used to indicate or point toward the left direction.</p>
+                            <span class="guide-tag">Direction</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">👉</div>
+                        <div class="guide-content">
+                            <h3>Point Right</h3>
+                            <p>Used to indicate or point toward the right direction.</p>
+                            <span class="guide-tag">Direction</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">🤏</div>
+                        <div class="guide-content">
+                            <h3>A</h3>
+                            <p>Alphabet hand sign representing the letter A.</p>
+                            <span class="guide-tag">Alphabet</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">🅱️</div>
+                        <div class="guide-content">
+                            <h3>B</h3>
+                            <p>Alphabet hand sign representing the letter B.</p>
+                            <span class="guide-tag">Alphabet</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">🤲</div>
+                        <div class="guide-content">
+                            <h3>C</h3>
+                            <p>Alphabet hand sign representing the letter C.</p>
+                            <span class="guide-tag">Alphabet</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">🤚</div>
+                        <div class="guide-content">
+                            <h3>D</h3>
+                            <p>Alphabet hand sign representing the letter D.</p>
+                            <span class="guide-tag">Alphabet</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">✊</div>
+                        <div class="guide-content">
+                            <h3>E</h3>
+                            <p>Alphabet hand sign representing the letter E.</p>
+                            <span class="guide-tag">Alphabet</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">🤞</div>
+                        <div class="guide-content">
+                            <h3>F</h3>
+                            <p>Alphabet hand sign representing the letter F.</p>
+                            <span class="guide-tag">Alphabet</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">☝️</div>
+                        <div class="guide-content">
+                            <h3>G</h3>
+                            <p>Alphabet hand sign representing the letter G.</p>
+                            <span class="guide-tag">Alphabet</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">🖐️</div>
+                        <div class="guide-content">
+                            <h3>H</h3>
+                            <p>Alphabet hand sign representing the letter H.</p>
+                            <span class="guide-tag">Alphabet</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">☝️</div>
+                        <div class="guide-content">
+                            <h3>I</h3>
+                            <p>Alphabet hand sign representing the letter I.</p>
+                            <span class="guide-tag">Alphabet</span>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide-card">
+                        <div class="guide-icon">🤟</div>
+                        <div class="guide-content">
+                            <h3>L</h3>
+                            <p>Alphabet hand sign representing the letter L.</p>
+                            <span class="guide-tag">Alphabet</span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="guide-note">
+
+                    <strong>💡 Tip</strong>
+
+                    <p>
+                        Keep your hand inside the camera frame and
+                        make sure there is enough lighting for better
+                        recognition.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ==================================================
+                 COMMUNICATION PAGE
+            =================================================== -->
+
+            <section class="page-section" id="communicationPage" style="display: none;">
+
+                <header class="topbar">
+
+                    <div>
+                        <h2>Communication</h2>
+                        <p>Patient communication history</p>
+                    </div>
+
+                    <div class="header-right">
+                        <div class="camera-status">
+                            <span class="status-dot"></span>
+                            Communication Center
+                        </div>
+                    </div>
+
+                </header>
+
+
+                <section class="bottom-grid">
+
+                    <div class="history-card card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <h3>Recent Communication</h3>
+                                <p>Latest patient messages</p>
+                            </div>
+
+                            <button class="clear-button" id="communicationClearHistory" type="button">
+                                Clear
+                            </button>
+
+                        </div>
+
+                        <div class="history-list" id="communicationHistoryList">
+                            <div class="empty-history">No communication yet</div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-card card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <h3>Communication Status</h3>
+                                <p>Current session</p>
+                            </div>
+
+                        </div>
+
+                        <div class="info-list">
+
+                            <div class="info-row">
+                                <span>AI Model</span>
+                                <strong>30 Gestures</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Voice</span>
+                                <strong class="online">Enabled</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Status</span>
+                                <strong class="online">Ready</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

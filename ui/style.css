@@ -1,0 +1,1162 @@
+/* =========================================================
+   SIGN SENSE AI — MAIN UI STYLES
+========================================================= */
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   THEME VARIABLES
+========================================================= */
+
+:root {
+    --bg: #0b0d10;
+    --sidebar: #111419;
+    --card: #151920;
+    --card-hover: #1a1f27;
+
+    --border: #272d36;
+
+    --text: #f5f7fa;
+    --muted: #8d96a3;
+
+    --accent: #4f9cff;
+    --accent-soft: rgba(79, 156, 255, 0.12);
+
+    --success: #35d07f;
+    --danger: #ff4d5e;
+    --warning: #ffb547;
+
+    --shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+
+body.light {
+    --bg: #f4f6f9;
+    --sidebar: #ffffff;
+    --card: #ffffff;
+    --card-hover: #f7f9fc;
+
+    --border: #e1e6ed;
+
+    --text: #17202a;
+    --muted: #687384;
+
+    --accent: #2677e8;
+    --accent-soft: rgba(38, 119, 232, 0.10);
+
+    --success: #159957;
+    --danger: #e43f4f;
+    --warning: #d88a00;
+
+    --shadow: 0 10px 30px rgba(30, 50, 80, 0.08);
+}
+
+
+/* =========================================================
+   HTML / BODY
+========================================================= */
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background: var(--bg);
+    color: var(--text);
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+button {
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   MAIN APP
+========================================================= */
+
+.app {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    min-width: 0;
+    min-height: 0;
+    background: var(--bg);
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+    width: 245px;
+    min-width: 245px;
+    height: 100vh;
+
+    background: var(--sidebar);
+
+    border-right: 1px solid var(--border);
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 25px 16px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 8px 30px;
+}
+
+
+.brand-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 22px;
+}
+
+
+.brand h1 {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    white-space: nowrap;
+}
+
+
+.brand p {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 3px;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+
+.nav-item {
+    width: 100%;
+    min-height: 44px;
+    padding: 12px 13px;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--muted);
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    text-align: left;
+    font-size: 14px;
+
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+
+.nav-item span {
+    width: 20px;
+    min-width: 20px;
+    text-align: center;
+    font-size: 17px;
+}
+
+
+.nav-item:hover {
+    background: var(--card-hover);
+    color: var(--text);
+}
+
+
+.nav-item.active {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   SIDEBAR BOTTOM
+========================================================= */
+
+.sidebar-bottom {
+    margin-top: auto;
+}
+
+
+/* =========================================================
+   SYSTEM STATUS
+========================================================= */
+
+.system-status {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-bottom: 12px;
+}
+
+
+.system-status strong {
+    display: block;
+    font-size: 12px;
+}
+
+
+.system-status small {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+
+/* =========================================================
+   STATUS DOT
+========================================================= */
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    min-width: 8px;
+    background: var(--success);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 8px rgba(53, 208, 127, 0.5);
+}
+
+
+/* =========================================================
+   THEME BUTTON
+========================================================= */
+
+.theme-button {
+    width: 100%;
+    min-height: 42px;
+    padding: 11px 13px;
+    border-radius: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 13px;
+
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+
+.theme-button:hover {
+    background: var(--card-hover);
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.main {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    height: 100vh;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding: 28px 32px 35px;
+
+    background: var(--bg);
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+
+.topbar h2 {
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: -0.7px;
+    line-height: 1.2;
+}
+
+
+.topbar p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   CAMERA STATUS
+========================================================= */
+
+.camera-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 13px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   ICON BUTTON
+========================================================= */
+
+.icon-button {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 9px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   GENERIC CARDS
+========================================================= */
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    min-width: 0;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    min-width: 0;
+}
+
+
+.card-header h3 {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+
+.card-header p {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   ✅ DASHBOARD PAGE + GRID (FIXED)
+========================================================= */
+
+.dashboard-page {
+    width: 100%;
+    min-width: 0;
+    display: block;
+}
+
+
+.dashboard-grid {
+    width: 100%;
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.55fr)
+        minmax(360px, 0.75fr);
+
+    gap: 20px;
+
+    align-items: stretch;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   CAMERA + DETECTION CARDS
+========================================================= */
+
+.camera-card,
+.detection-card {
+    padding: 18px;
+    min-width: 0;
+    width: 100%;
+}
+
+
+/* =========================================================
+   LIVE BADGE
+========================================================= */
+
+.live-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--success);
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   CAMERA CONTAINER
+========================================================= */
+
+.camera-container {
+    margin-top: 17px;
+    width: 100%;
+    height: 390px;
+    min-height: 390px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #080a0d;
+    border: 1px solid var(--border);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+}
+
+
+/* =========================================================
+   CAMERA VIEW
+========================================================= */
+
+.camera-view {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   CAMERA FEED
+========================================================= */
+
+.camera-feed {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+/* =========================================================
+   LANDMARK CANVAS
+========================================================= */
+
+.landmark-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+
+/* =========================================================
+   CAMERA FOOTER
+========================================================= */
+
+.camera-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+
+/* =========================================================
+   HAND STATUS
+========================================================= */
+
+.hand-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+
+.hand-status > span {
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+    border-radius: 9px;
+    background: var(--accent-soft);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.hand-status strong,
+.hand-status small {
+    display: block;
+}
+
+
+.hand-status strong {
+    font-size: 12px;
+}
+
+
+.hand-status small {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+
+/* =========================================================
+   MODE STATUS
+========================================================= */
+
+.mode-status {
+    text-align: right;
+}
+
+
+.mode-status span {
+    display: block;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+
+.mode-status strong {
+    color: var(--accent);
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   DETECTION
+========================================================= */
+
+.confidence-mini {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+
+.confidence-mini span {
+    display: block;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+
+.confidence-mini strong {
+    color: var(--accent);
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   GESTURE RESULT
+========================================================= */
+
+.gesture-result {
+    text-align: center;
+    padding: 30px 10px 22px;
+}
+
+
+.gesture-icon {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    border-radius: 22px;
+    background: var(--accent-soft);
+    color: var(--accent);
+
+    margin: 0 auto 18px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 34px;
+}
+
+
+.gesture-result h2 {
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   CONFIDENCE BAR
+========================================================= */
+
+.confidence-bar {
+    width: 100%;
+    height: 7px;
+    background: var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+
+.confidence-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 20px;
+    transition: width 0.25s ease;
+}
+
+
+.confidence-text {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 7px;
+}
+
+
+.confidence-text span {
+    color: var(--text);
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   MESSAGE BOX
+========================================================= */
+
+.message-box {
+    background: var(--accent-soft);
+    border: 1px solid rgba(79, 156, 255, 0.18);
+    border-radius: 12px;
+    padding: 15px;
+    width: 100%;
+}
+
+
+.message-label {
+    color: var(--accent);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+}
+
+
+.message-box p {
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 7px;
+    line-height: 1.35;
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   VOICE STATUS
+========================================================= */
+
+.voice-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    padding: 11px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+}
+
+
+.voice-icon {
+    width: 33px;
+    height: 33px;
+    min-width: 33px;
+    border-radius: 9px;
+    background: var(--accent-soft);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.voice-status strong,
+.voice-status small {
+    display: block;
+}
+
+
+.voice-status strong {
+    font-size: 11px;
+}
+
+
+.voice-status small {
+    color: var(--muted);
+    font-size: 9px;
+    margin-top: 2px;
+}
+
+
+/* =========================================================
+   BOTTOM GRID
+========================================================= */
+
+#dashboardBottomGrid,
+.bottom-grid {
+    width: 100%;
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.55fr)
+        minmax(360px, 0.75fr);
+
+    gap: 20px;
+
+    margin-top: 20px;
+}
+
+
+/* =========================================================
+   HISTORY + SYSTEM INFO
+========================================================= */
+
+.history-card,
+.info-card {
+    padding: 18px;
+    min-width: 0;
+}
+
+
+/* =========================================================
+   CLEAR BUTTON
+========================================================= */
+
+.clear-button {
+    background: transparent;
+    color: var(--accent);
+    font-size: 11px;
+    padding: 4px 6px;
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+.history-list {
+    margin-top: 15px;
+}
+
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+
+.history-message {
+    font-size: 12px;
+    font-weight: 500;
+    word-break: break-word;
+}
+
+
+.history-meta {
+    color: var(--muted);
+    font-size: 9px;
+    margin-top: 3px;
+}
+
+
+.history-confidence {
+    color: var(--accent);
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+
+.empty-history {
+    text-align: center;
+    padding: 22px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   SYSTEM INFORMATION
+========================================================= */
+
+.info-list {
+    margin-top: 13px;
+}
+
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+}
+
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+
+.info-row span {
+    color: var(--muted);
+}
+
+
+.online {
+    color: var(--success);
+}
+
+
+/* =========================================================
+   EMERGENCY
+========================================================= */
+
+.emergency-banner {
+    display: none;
+    align-items: center;
+    gap: 14px;
+    margin-top: 18px;
+    padding: 14px 17px;
+    background: rgba(255, 77, 94, 0.12);
+    border: 1px solid rgba(255, 77, 94, 0.35);
+    border-radius: 13px;
+    color: var(--danger);
+}
+
+
+.emergency-banner.show {
+    display: flex;
+    animation: emergencyPulse 1s infinite alternate;
+}
+
+
+.emergency-icon {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 10px;
+    background: var(--danger);
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 800;
+}
+
+
+.emergency-banner strong {
+    font-size: 13px;
+}
+
+
+.emergency-banner p {
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+
+@keyframes emergencyPulse {
+    from { opacity: 0.75; }
+    to   { opacity: 1; }
+}
+
+
+/* =========================================================
+   PAGE SECTIONS
+========================================================= */
+
+.page-section {
+    width: 100%;
+    min-width: 0;
+}
+
+
+#gestureGuidePage,
+#communicationPage {
+    width: 100%;
+    min-width: 0;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.main::-webkit-scrollbar {
+    width: 8px;
+}
+
+
+.main::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+.main::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+}
+
+
+.main::-webkit-scrollbar-thumb:hover {
+    background: #3a4350;
+}
+
+
+/* =========================================================
+   RESPONSIVE — LAPTOP
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .main {
+        padding: 25px 24px 30px;
+    }
+
+    .dashboard-grid,
+    #dashboardBottomGrid,
+    .bottom-grid {
+        grid-template-columns:
+            minmax(0, 1.35fr)
+            minmax(320px, 0.75fr);
+        gap: 18px;
+    }
+
+    .camera-container {
+        height: 360px;
+        min-height: 360px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — SMALL LAPTOP
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .sidebar {
+        width: 215px;
+        min-width: 215px;
+    }
+
+    .main {
+        padding: 24px 22px 30px;
+    }
+
+    .dashboard-grid,
+    #dashboardBottomGrid,
+    .bottom-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .camera-container {
+        height: 350px;
+        min-height: 350px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        width: 100%;
+        padding: 18px;
+    }
+
+    .topbar {
+        align-items: flex-start;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .topbar h2 {
+        font-size: 22px;
+    }
+
+    .header-right {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .dashboard-grid,
+    #dashboardBottomGrid,
+    .bottom-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .camera-container {
+        height: 280px;
+        min-height: 280px;
+    }
+
+    .camera-feed {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .landmark-canvas {
+        width: 100%;
+        height: 100%;
+    }
+
+    .camera-footer {
+        flex-wrap: wrap;
+    }
+}

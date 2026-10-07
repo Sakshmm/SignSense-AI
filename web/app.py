@@ -14,6 +14,7 @@ import numpy as np
 
 from flask import Flask, render_template, request, jsonify
 
+
 # ==========================================================
 # PROJECT ROOT
 # ==========================================================
@@ -27,12 +28,14 @@ ROOT = os.path.dirname(
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
+
 # ==========================================================
 # EXISTING PROJECT UTILITIES
 # ==========================================================
 
 from utils.hand_tracking import HandTracker
 from utils.feature_extraction import extract_features
+
 
 # ==========================================================
 # PATHS
@@ -64,6 +67,7 @@ SETTINGS_PATH = os.path.join(
     "settings.json"
 )
 
+
 # ==========================================================
 # LOAD SETTINGS
 # ==========================================================
@@ -84,12 +88,10 @@ CONFIDENCE_THRESHOLD = float(
     )
 )
 
-MAX_HANDS = int(
-    SETTINGS.get(
-        "MAX_HANDS",
-        2
-    )
-)
+# IMPORTANT:
+# SignSense AI supports TWO HANDS
+MAX_HANDS = 2
+
 
 # ==========================================================
 # LOAD GESTURE MESSAGES
@@ -140,13 +142,16 @@ with open(
     label_encoder = pickle.load(f)
 
 print("Label encoder loaded successfully.")
+
 print(
     f"Confidence threshold: "
     f"{CONFIDENCE_THRESHOLD * 100:.1f}%"
 )
+
 print(
     f"Maximum hands: {MAX_HANDS}"
 )
+
 
 # ==========================================================
 # MEDIAPIPE TRACKER
@@ -155,6 +160,7 @@ print(
 tracker = HandTracker(
     max_hands=MAX_HANDS
 )
+
 
 # ==========================================================
 # FLASK APP
@@ -168,6 +174,7 @@ app = Flask(
         "templates"
     )
 )
+
 
 # ==========================================================
 # HOME
@@ -189,12 +196,18 @@ def index():
 def health():
 
     return jsonify({
+
         "status": "ok",
-        "model_loaded": model is not None,
+
+        "model_loaded":
+            model is not None,
+
         "label_encoder_loaded":
             label_encoder is not None,
+
         "confidence_threshold":
             CONFIDENCE_THRESHOLD,
+
         "max_hands":
             MAX_HANDS
     })
@@ -268,7 +281,32 @@ def predict():
 
 
         # --------------------------------------------------
+        # RESIZE FRAME
+        # REDUCES SERVER LOAD
+        # --------------------------------------------------
+
+        max_width = 480
+
+        if frame.shape[1] > max_width:
+
+            scale = max_width / frame.shape[1]
+
+            new_height = int(
+                frame.shape[0] * scale
+            )
+
+            frame = cv2.resize(
+                frame,
+                (
+                    max_width,
+                    new_height
+                )
+            )
+
+
+        # --------------------------------------------------
         # MEDIAPIPE
+        # TWO HANDS
         # --------------------------------------------------
 
         results = tracker.process(
@@ -544,26 +582,25 @@ if __name__ == "__main__":
     print("             SignSense AI - Web Version")
     print("=" * 60)
     print()
+
     print("Open in browser:")
     print("http://127.0.0.1:5000")
     print()
+
     print("Health check:")
     print("http://127.0.0.1:5000/health")
     print()
+
     print("Prediction API:")
     print("POST http://127.0.0.1:5000/predict")
     print()
+
     print("=" * 60)
 
 
     app.run(
-
         host="127.0.0.1",
-
         port=5000,
-
         debug=False,
-
         threaded=True
-
     )
